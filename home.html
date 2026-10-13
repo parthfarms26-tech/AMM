@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Prithvi Realcon Transport Pvt. Ltd. | AMM Works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+:root{
+  --bg:#f3f6fb; --surface:#fff; --ink:#0f2142; --ink2:#51607a; --mute:#8794ab;
+  --line:#e0e6f0; --brand:#1d4ed8;
+  --head:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:var(--body);color:var(--ink);line-height:1.5;min-height:100vh;
+  background:
+    radial-gradient(900px 420px at 85% -10%,#dfe9ff 0,transparent 70%),
+    radial-gradient(700px 360px at -5% 0,#e6f3ee 0,transparent 70%),
+    var(--bg);
+  display:flex;flex-direction:column;align-items:center;
+  padding:clamp(1.25rem,4vw,3rem) 1rem 1.5rem;
+}
+body::before{ /* faint dot grid */
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(rgba(15,33,66,.09) 1px,transparent 1px);
+  background-size:22px 22px;
+  -webkit-mask-image:linear-gradient(#000,transparent 70%);mask-image:linear-gradient(#000,transparent 70%);
+}
+.wrap{width:100%;max-width:960px}
+
+/* top status chip */
+.status{display:flex;justify-content:center;margin-bottom:1.75rem}
+.chip{display:inline-flex;align-items:center;gap:.6rem;padding:.4rem .9rem;border-radius:999px;background:rgba(255,255,255,.8);border:1px solid var(--line);color:var(--ink2);font-size:.82rem;font-weight:500;backdrop-filter:blur(6px)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:#16a34a;box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:pulse 2.4s infinite}
+.chip b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+
+.head{text-align:center;margin-bottom:clamp(2rem,5vw,3.25rem)}
+.mark{width:64px;height:64px;margin:0 auto 1.25rem;border-radius:18px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:1.5rem;box-shadow:0 14px 28px -12px rgba(15,33,66,.45)}
+.head h1{font-family:var(--head);font-weight:700;font-size:clamp(1.45rem,4.2vw,2.5rem);line-height:1.15;letter-spacing:-.02em;text-wrap:balance}
+.head .sub{display:inline-flex;align-items:center;gap:.7rem;margin-top:1rem;color:var(--ink2);font-weight:600;font-size:1.02rem}
+.head .sub::before,.head .sub::after{content:"";width:34px;height:2px;border-radius:2px;background:var(--line)}
+.hint{margin-top:.9rem;color:var(--mute);font-size:.88rem}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem}
+.tile{
+  --c:var(--brand);--t:#eaf0ff;--mx:50%;--my:50%;
+  position:relative;overflow:hidden;display:flex;align-items:center;gap:1.1rem;padding:1.5rem 1.4rem;
+  background:var(--surface);border:1px solid var(--line);border-radius:18px;text-decoration:none;color:inherit;
+  box-shadow:0 1px 2px rgba(15,33,66,.04),0 14px 30px -18px rgba(15,33,66,.22);
+  transition:transform .2s cubic-bezier(.2,.8,.2,1),border-color .2s,box-shadow .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.tile::before{ /* cursor spotlight */
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s;
+  background:radial-gradient(260px circle at var(--mx) var(--my),var(--t),transparent 70%);
+}
+.tile:hover{transform:translateY(-4px);border-color:var(--c);box-shadow:0 1px 2px rgba(15,33,66,.04),0 22px 38px -16px rgba(15,33,66,.3)}
+.tile:hover::before{opacity:1}
+.tile:active{transform:translateY(-1px) scale(.985)}
+.tile>*{position:relative}
+.ico{flex:none;width:58px;height:58px;border-radius:15px;display:grid;place-items:center;background:var(--t);color:var(--c);font-size:1.4rem;transition:background .2s,color .2s,transform .2s}
+.tile:hover .ico{background:var(--c);color:#fff;transform:rotate(-4deg) scale(1.05)}
+.txt{flex:1;min-width:0}
+.txt h2{font-family:var(--head);font-size:1.4rem;letter-spacing:-.02em;line-height:1.1}
+.txt p{margin-top:.2rem;color:var(--ink2);font-size:.92rem}
+.end{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:.55rem}
+.key{font:600 .72rem var(--body);color:var(--mute);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:.05rem .45rem;background:#fff}
+.go{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;color:var(--mute);background:#f3f6fb;transition:background .2s,color .2s,transform .2s}
+.tile:hover .go{background:var(--c);color:#fff;transform:translateX(3px)}
+.badge{display:none;position:absolute;top:.8rem;right:1rem;font-size:.7rem;font-weight:600;color:var(--c);background:var(--t);padding:.12rem .55rem;border-radius:999px}
+.tile.last .badge{display:block}
+.tile.last .key{display:none}
+
+/* one orchestrated entrance */
+.js .reveal{opacity:0;transform:translateY(14px);animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*70ms)}
+@keyframes rise{to{opacity:1;transform:none}}
+
+footer{margin-top:auto;padding-top:2.5rem;color:var(--mute);font-size:.82rem;text-align:center}
+:focus-visible{outline:3px solid rgba(29,78,216,.45);outline-offset:3px}
+
+@media (max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .key,.hint .kb{display:none}
+  .tile{padding:1.25rem 1.1rem}
+}
+@media (hover:none){.tile:hover{transform:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.js .reveal{opacity:1;transform:none}}
+</style>
+<script>document.documentElement.classList.add("js")</script>
+<script>
+/* ===== Login guard: admin = all pages, user = dashboard + report (+ home) only ===== */
+(function(){
+  var LOGIN='index.html', HOME='home.html';
+  var USER_PAGES=['dashboard','report','home'];
+  var s; try{ s=JSON.parse(sessionStorage.getItem('amm-auth')); }catch(e){}
+  var page=(location.pathname.split('/').pop()||'').replace(/\.html$/,'');
+  if(!s){ location.replace(LOGIN); return; }
+  if(s.role!=='admin' && USER_PAGES.indexOf(page)===-1){ location.replace(HOME); return; }
+  function logout(){ sessionStorage.removeItem('amm-auth'); location.replace(LOGIN); }
+  document.addEventListener('DOMContentLoaded',function(){
+    if(s.role!=='admin'){
+      document.querySelectorAll('a[href$="data-entry.html"], a[href$="alert.html"]').forEach(function(a){a.remove();});
+    }
+    var bar=document.createElement('div');
+    bar.style.cssText='position:fixed;top:12px;right:16px;z-index:999;display:flex;gap:.6rem;align-items:center;background:#fff;border:1px solid #d3ddee;border-radius:999px;padding:.3rem .4rem .3rem .9rem;font:600 .8rem system-ui,sans-serif;color:#0f2142;box-shadow:0 6px 16px -8px rgba(15,33,66,.3)';
+    bar.innerHTML='<span>'+s.name+' · '+s.role.toUpperCase()+'</span><button style="border:0;background:#0f2142;color:#fff;border-radius:999px;padding:.35rem .8rem;cursor:pointer;font:inherit">Logout</button>';
+    bar.querySelector('button').onclick=logout;
+    document.body.appendChild(bar);
+  });
+})();
+</script>
+</head>
+<body>
+<main class="wrap">
+  <div class="status reveal" style="--i:0">
+    <span class="chip"><span class="dot"></span><span id="when">&nbsp;</span></span>
+  </div>
+
+  <header class="head reveal" style="--i:1">
+    <div class="mark"><i class="fas fa-truck-fast"></i></div>
+    <h1>PRITHVI REALCON TRANSPORT<br />PRIVATE LIMITED</h1>
+    <div class="sub">AMM Works</div>
+    <p class="hint"><span id="greet">Welcome</span>. Select a party to open its reports<span class="kb">, or press 1 to 4</span>.</p>
+  </header>
+
+  <nav class="grid" aria-label="Parties">
+    <a class="tile reveal" style="--i:2;--c:#0f8a6a;--t:#e3f5ef" href="hzl/dashboard.html" data-party="HZL" data-key="1">
+      <div class="ico"><i class="fas fa-industry"></i></div>
+      <div class="txt"><h2>HZL</h2><p>Hindustan Zinc Limited</p></div>
+      <div class="end"><span class="key">1</span><span class="go"><i class="fas fa-arrow-right"></i></span></div>
+      <span class="badge">Last opened</span>
+    </a>
+    <a class="tile reveal" style="--i:3;--c:#c27a0a;--t:#fdf1dc" href="pjpb/dashboard.html" data-party="PJPB" data-key="2">
+      <div class="ico"><i class="fas fa-mountain"></i></div>
+      <div class="txt"><h2>PJPB</h2><p>Project &amp; Plant Operations</p></div>
+      <div class="end"><span class="key">2</span><span class="go"><i class="fas fa-arrow-right"></i></span></div>
+      <span class="badge">Last opened</span>
+    </a>
+    <a class="tile reveal" style="--i:4;--c:#1d4ed8;--t:#e6edff" href="nbsk/dashboard.html" data-party="NBSK" data-key="3">
+      <div class="ico"><i class="fas fa-flask"></i></div>
+      <div class="txt"><h2>NBSK</h2><p>Process &amp; Quality Control</p></div>
+      <div class="end"><span class="key">3</span><span class="go"><i class="fas fa-arrow-right"></i></span></div>
+      <span class="badge">Last opened</span>
+    </a>
+    <a class="tile reveal" style="--i:5;--c:#7c3aed;--t:#f0e8ff" href="mvaa/dashboard.html" data-party="MVAA" data-key="4">
+      <div class="ico"><i class="fas fa-chart-line"></i></div>
+      <div class="txt"><h2>MVAA</h2><p>Monitoring &amp; Analytics</p></div>
+      <div class="end"><span class="key">4</span><span class="go"><i class="fas fa-arrow-right"></i></span></div>
+      <span class="badge">Last opened</span>
+    </a>
+  </nav>
+</main>
+<footer>© 2026 Prithvi Realcon Transport Private Limited</footer>
+
+<script>
+(() => {
+  const tiles = [...document.querySelectorAll(".tile")];
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch { return null; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch {} }
+  };
+
+  // Greeting and live date/time
+  const h = new Date().getHours();
+  document.getElementById("greet").textContent = h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
+  const when = document.getElementById("when");
+  const tick = () => {
+    const d = new Date();
+    when.innerHTML = d.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short",year:"numeric"}) +
+      " &nbsp;·&nbsp; <b>" + d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"}) + "</b>";
+  };
+  tick(); setInterval(tick, 20000);
+
+  // Remember last opened party
+  const last = store.get("amm-last");
+  tiles.forEach(t => {
+    if (t.dataset.party === last) t.classList.add("last");
+    t.addEventListener("click", () => store.set("amm-last", t.dataset.party));
+    t.addEventListener("pointermove", e => {
+      const r = t.getBoundingClientRect();
+      t.style.setProperty("--mx", (e.clientX - r.left) + "px");
+      t.style.setProperty("--my", (e.clientY - r.top) + "px");
+    });
+  });
+
+  // Number-key shortcuts
+  document.addEventListener("keydown", e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = tiles.find(t => t.dataset.key === e.key);
+    if (t) t.click();
+  });
+})();
+</script>
+</body>
+</html>

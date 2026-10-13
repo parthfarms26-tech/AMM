@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login | AMM Works</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--ink:#0f2142;--ink2:#51607a;--line:#d3ddee;--field:#eaf0fa;--accent:#0f8a6a;--danger:#d1344a;
+  --head:"Bricolage Grotesque",system-ui,sans-serif;--body:"Instrument Sans",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);color:var(--ink);min-height:100vh;display:grid;place-items:center;padding:1rem;
+  background:radial-gradient(900px 420px at 85% -10%,#dfe9ff 0,transparent 70%),radial-gradient(700px 360px at -5% 100%,#d9efe8 0,transparent 70%),#f3f6fb}
+.box{width:100%;max-width:400px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:2rem 1.8rem;
+  box-shadow:0 1px 2px rgba(15,33,66,.05),0 24px 44px -20px rgba(15,33,66,.3)}
+.mark{width:56px;height:56px;border-radius:16px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:1.3rem;margin:0 auto 1rem}
+h1{font:700 1.3rem var(--head);text-align:center;letter-spacing:-.02em}
+.sub{text-align:center;color:var(--ink2);font-size:.88rem;margin:.3rem 0 1.4rem}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--field);border-radius:12px;padding:4px;margin-bottom:1.2rem}
+.tabs button{border:0;background:none;padding:.6rem;border-radius:9px;font:600 .9rem var(--body);color:var(--ink2);cursor:pointer;transition:.2s}
+.tabs button.on{background:#fff;color:var(--accent);box-shadow:0 2px 8px -2px rgba(15,33,66,.2)}
+label{display:block;font-size:.82rem;font-weight:500;color:var(--ink2);margin-bottom:.35rem}
+.f{margin-bottom:1rem;position:relative}
+input{width:100%;padding:.75rem 1rem;border:1px solid var(--line);border-radius:10px;background:var(--field);font:inherit;color:var(--ink);outline:none}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,138,106,.18);background:#f9fbfe}
+.eye{position:absolute;right:.8rem;bottom:.8rem;background:none;border:0;color:var(--ink2);cursor:pointer}
+.go{width:100%;padding:.8rem;border:0;border-radius:10px;background:var(--accent);color:#fff;font:600 .95rem var(--body);cursor:pointer;margin-top:.3rem}
+.go:hover{filter:brightness(1.08)}
+.err{color:var(--danger);font-size:.85rem;text-align:center;min-height:1.2rem;margin-top:.8rem}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ===== Supabase (same project as data-entry.html) ===== */
+var SUPABASE_URL = 'https://pycmkjrmdieaqsbgrher.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5Y21ranJtZGllYXFzYmdyaGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwMjMxNzAsImV4cCI6MjEwNjU5OTE3MH0.9IE2c2FZ4BPv6Rvhfa_VniQ7LJvQ_c4EGDXFihYR4Lc';
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+var Auth={
+  home:'home.html',
+  session:function(){try{return JSON.parse(sessionStorage.getItem('amm-auth'));}catch(e){return null;}},
+  // Checks username/password in the Supabase table (via the check_login SQL function)
+  login:async function(un,pw,role){
+    var r = await sb.rpc('check_login',{p_role:role,p_username:un.trim(),p_password:pw});
+    if(r.error) throw r.error;
+    if(r.data!==true) return null;
+    var s={user:un.trim().toLowerCase(),name:role==='admin'?'Administrator':'Report User',role:role};
+    sessionStorage.setItem('amm-auth',JSON.stringify(s));
+    return s;
+  }
+};
+</script>
+</head>
+<body>
+<form class="box" id="f" autocomplete="off">
+  <div class="mark"><i class="fas fa-truck-fast"></i></div>
+  <h1>Prithvi Realcon Transport</h1>
+  <p class="sub">AMM Works · Sign in to continue</p>
+
+  <div class="tabs">
+    <button type="button" class="on" data-role="user"><i class="fas fa-user"></i> User</button>
+    <button type="button" data-role="admin"><i class="fas fa-user-shield"></i> Admin</button>
+  </div>
+
+  <div class="f"><label for="u">Username</label><input id="u" required autofocus></div>
+  <div class="f"><label for="p">Password</label><input id="p" type="password" required>
+    <button type="button" class="eye" id="eye" aria-label="Show password"><i class="fas fa-eye"></i></button></div>
+
+  <button class="go" type="submit">Login</button>
+  <div class="err" id="err"></div>
+</form>
+
+<script>
+  var role = 'user';
+  if (Auth.session()) location.replace(Auth.home);          // already logged in
+  document.querySelectorAll('.tabs button').forEach(function (b) {
+    b.onclick = function () {
+      document.querySelectorAll('.tabs button').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on'); role = b.dataset.role; document.getElementById('err').textContent = '';
+    };
+  });
+  document.getElementById('eye').onclick = function () {
+    var p = document.getElementById('p'); p.type = p.type === 'password' ? 'text' : 'password';
+  };
+  document.getElementById('f').onsubmit = async function (e) {
+    e.preventDefault();
+    var err = document.getElementById('err'), btn = document.querySelector('.go');
+    err.textContent = ''; btn.disabled = true; btn.textContent = 'Checking...';
+    try {
+      var s = await Auth.login(document.getElementById('u').value, document.getElementById('p').value, role);
+      if (s) { location.replace(Auth.home); return; }
+      err.textContent = 'Wrong username, password or login type.';
+    } catch (ex) {
+      console.error(ex);
+      err.textContent = 'Could not reach the server. Check internet / Supabase setup.';
+    }
+    btn.disabled = false; btn.textContent = 'Login';
+  };
+</script>
+</body>
+</html>
